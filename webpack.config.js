@@ -1,8 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/index.js',
   devtool: 'inline-source-map',
+  mode: 'development',
   watch: true,
   watchOptions: {
     poll: 1000,
@@ -12,7 +13,9 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader', 'css-loader', 'sass-loader',
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
     ],

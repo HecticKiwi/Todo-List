@@ -2,15 +2,111 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-    <script src="./main.js" defer></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <link rel="shortcut icon" href="./images/task-line.svg" type="image/x-icon">
+  <link rel="stylesheet" href="normalize.css">
+  <script src="./main.js" defer></script>
 </head>
 
 <body>
-
+  <header class="header">
+    <img class="logo-img" src="./images/task-line.svg" alt="" srcset="">
+    <h1 class="logo-text">Todo List</h1>
+  </header>
+  <div class="sidebar">
+    <h2>Projects</h2>
+    <ul class="projects">
+      <li class="project selected">
+        <span class="todo-count">4</span>
+        <span class="name">Project</span>
+      </li>
+      <li class="project">
+        <span class="todo-count">3</span>
+        <span class="name">Another project</span>
+      </li>
+      <li class="project">
+        <span class="todo-count">6</span>
+        <span class="name">Something</span>
+      </li>
+      <li class="add-project">
+        <img src="./images/add-line.svg" alt="">
+        <span>New Project</span>
+      </li>
+    </ul>
+  </div>
+  <main class="main">
+    <div class="container">
+      <h2>Default</h2>
+      <ul class="todos">
+        <li class="todo high-priority expanded">
+          <div class="summary">
+            <div class="checkbox checked"></div>
+            <span class="title">Insert task here</span>
+            <span class="due-date">03/07/2022</span>
+            <img class="edit" src="./images/edit-box-line.svg" alt="">
+            <img class="delete" src="./images/delete-bin-line.svg" alt="">
+          </div>
+          <p class="details">
+            Insert specific description here.
+          </p>
+        </li>
+        <li class="todo high-priority">
+          <div class="summary">
+            <div class="checkbox checked"></div>
+            <span class="title">Do this! things!</span>
+            <span class="due-date">03/07/2022</span>
+            <img class="edit" src="./images/edit-box-line.svg" alt="">
+            <img class="delete" src="./images/delete-bin-line.svg" alt="">
+          </div>
+          <p class="details"></p>
+        </li>
+        <li class="add">
+          <img src="./images/add-line.svg" alt="">
+          <span class="add-text">New todo</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+  <dialog class="new-todo">
+    <div class="container">
+      <div class="form-header">New todo</div>
+      <form action="" method="dialog">
+        <div>
+          <label for="title" hidden>Title</label>
+          <input type="text" name="title" id="title" placeholder="Title" maxlength="30" required>
+        </div>
+        <div>
+          <label hidden for="description">Description</label>
+          <textarea name="description" id="description" placeholder="Description (optional)"></textarea>
+        </div>
+        <div class="form-bottom">
+          <div>
+            <label for="due-date">Due date</label>
+            <input type="date" name="due-date" id="due-date">
+          </div>
+          <fieldset class="priority-buttons">
+            <legend>Priority</legend>
+            <div.priority-button>
+              <input type="radio" name="priority" id="low" value="low" required hidden>
+              <label for="low">Low</label>
+            </div.priority-button>
+            <div.priority-button>
+              <input type="radio" name="priority" id="medium" value="medium" required hidden>
+              <label for="medium">Medium</label>
+            </div.priority-button>
+            <div.priority-button>
+              <input type="radio" name="priority" id="high" value="high" required hidden>
+              <label for="high">High</label>
+            </div.priority-button>
+          </fieldset>
+        </div>
+        <button id="add">Add</button>
+      </form>
+    </div>
+  </dialog>
 </body>
 
 </html>

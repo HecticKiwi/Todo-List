@@ -1,6 +1,292 @@
-main {
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+:root {
+    font-family: 'Open Sans', sans-serif;
+    --primary: hsl(32, 100%, 57%);
+    --secondary: hsl(0, 0%, 93%);
+    --transition-time: 400ms;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1,
+h2 {
     margin: 0;
+    color: rgb(34, 34, 34);
+}
+
+ul {
     padding: 0;
-    font-size: 0;
-    color: lightblue;
+}
+
+li {
+    list-style: none;
+}
+
+.header,
+.projects li,
+.summary {
+    display: flex;
+    align-items: center;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    grid-template-rows: min-content 1fr;
+    gap: 1px;
+    background-color: black;
+}
+
+.header {
+    grid-column: 1 / span 2;
+    background-color: var(--primary);
+    padding: 1rem;
+    gap: 1rem;
+
+    .logo-img {
+        width: 3rem;
+    }
+}
+
+.sidebar {
+    background-color: var(--secondary);
+    padding: 2rem;
+
+    .projects li {
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+        cursor: pointer;
+    }
+
+    .projects li:hover,
+    .selected {
+        font-weight: bold;
+    }
+
+    .todo-count {
+        border: 1px solid var(--primary);
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+    }
+
+    .todo-count,
+    .add-project img {
+        width: 1.75rem;
+        height: 1.75rem;
+        margin-right: 1rem;
+    }
+}
+
+.main {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    min-width: 0;
+}
+
+.container {
+    width: min(100%, 40rem);
+}
+
+.todo {
+    border-left: 2px solid transparent;
+    padding: 0.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+
+    &.high-priority {
+        border-color: red;
+    }
+
+    &.medium-priority {
+        border-color: orange;
+    }
+
+    &.low-priority {
+        border-color: green;
+    }
+
+    &:hover {
+        background-color: var(--secondary);
+
+        .delete,
+        .edit {
+            display: inline-block;
+        }
+    }
+}
+
+.summary {
+    gap: 0.5rem;
+    line-height: normal;
+    min-height: 1.5rem;
+}
+
+.todo:not(.expanded) .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit,
+.delete {
+    display: none;
+}
+
+.todo+.todo,
+.add {
+    border-top: 1px solid rgb(146, 146, 146);
+}
+
+.checkbox {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    border: 1px solid rgb(87, 87, 87);
+    border-radius: 2px;
+    cursor: pointer;
+
+    &.checked {
+        background-color: rgb(70, 70, 70);
+    }
+}
+
+.checked~*:not(.edit):not(.delete) {
+    opacity: 0.4;
+}
+
+.due-date {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: rgb(66, 66, 66);
+}
+
+.edit,
+.delete {
+    cursor: pointer;
+}
+
+.details {
+    margin-left: calc(1.5rem + 2px);
+    font-size: 0.9rem;
+}
+
+.expanded {
+    height: fit-content;
+}
+
+.add {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.add:hover {
+    opacity: 1;
+}
+
+dialog {
+    border: 1px solid black;
+    padding: 0;
+    width: min(100%, 40rem);
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.507);
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .form-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+
+    #title,
+    #description,
+    #due-date,
+    .priority-buttons label {
+        outline: 1px solid lightgray;
+        padding: 0.5rem;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        box-shadow: none;
+        resize: none;
+    }
+
+    #description {
+        font-size: 0.9rem;
+        color: gray;
+    }
+
+    #description::placeholder {
+        color: lightgray;
+    }
+
+    .form-bottom {
+        margin-block: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    label[for="due-date"],
+    legend {
+        font-size: 0.9rem;
+    }
+
+    #due-date {
+        border: none;
+    }
+
+    .priority-buttons {
+        display: flex;
+        border: none;
+        padding: 0.4rem 0 0 0;
+        margin: 0;
+    }
+
+    .priority-buttons label {
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    #low+label:hover,
+    #low:checked+label {
+        background-color: rgba(0, 128, 0, 0.5);
+    }
+
+    #medium+label:hover,
+    #medium:checked+label {
+        background-color: rgba(255, 166, 0, 0.5);
+    }
+
+    #high+label:hover,
+    #high:checked+label {
+        background-color: rgba(255, 0, 0, 0.5);
+    }
+
+    #add {
+        outline: 1px solid black;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+}
+
+label {
+    display: block;
+    margin-bottom: 0.4rem;
 }
