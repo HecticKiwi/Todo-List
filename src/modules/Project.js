@@ -1,6 +1,7 @@
 export default class Project {
-  constructor() {
-    this.todos = [];
+  constructor(name = 'Unnamed', todos = []) {
+    this.todos = todos;
+    this.name = name;
   }
 
   addTodo(todo) {

@@ -11,6 +11,12 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "no-use-before-define": [
+            "error",
+            {
+                "functions": false
+            }
+        ]
     }
 }

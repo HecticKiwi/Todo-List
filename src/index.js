@@ -1,4 +1,5 @@
 import './style.scss';
-import addEventListeners from './modules/UI';
+import UI from './modules/UI';
 
-addEventListeners();
+const ui = new UI();
+ui.setupPage();
