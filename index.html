@@ -19,7 +19,7 @@
   <div class="sidebar">
     <h2>Projects</h2>
     <ul class="projects">
-      <li class="project selected">
+      <!-- <li class="project selected">
         <span class="todo-count">4</span>
         <span class="name">Project</span>
       </li>
@@ -30,18 +30,18 @@
       <li class="project">
         <span class="todo-count">6</span>
         <span class="name">Something</span>
-      </li>
-      <li class="add-project">
-        <img src="./images/add-line.svg" alt="">
-        <span>New Project</span>
-      </li>
+      </li> -->
     </ul>
+    <div class="new-project">
+      <img src="./images/add-line.svg" alt="">
+      <span>New Project</span>
+    </div>
   </div>
   <main class="main">
     <div class="container">
-      <h2>Default</h2>
+      <h2 class="projects-header">Default</h2>
       <ul class="todos">
-        <li class="todo high-priority expanded">
+        <!-- <li class="todo high-priority expanded">
           <div class="summary">
             <div class="checkbox checked"></div>
             <span class="title">Insert task here</span>
@@ -62,18 +62,18 @@
             <img class="delete" src="./images/delete-bin-line.svg" alt="">
           </div>
           <p class="details"></p>
-        </li>
-        <li class="add">
-          <img src="./images/add-line.svg" alt="">
-          <span class="add-text">New todo</span>
-        </li>
+        </li> -->
       </ul>
+      <div class="new-todo-button">
+        <img src="./images/add-line.svg" alt="">
+        <span class="add-text">New todo</span>
+      </div>
     </div>
   </main>
-  <dialog class="new-todo">
+  <dialog class="new-todo-modal">
     <div class="container">
-      <div class="form-header">New todo</div>
-      <form action="" method="dialog">
+      <h2 class="form-header">New todo</h2>
+      <form action="" method="dialog" class="todo-form">
         <div>
           <label for="title" hidden>Title</label>
           <input type="text" name="title" id="title" placeholder="Title" maxlength="30" required>
@@ -85,7 +85,7 @@
         <div class="form-bottom">
           <div>
             <label for="due-date">Due date</label>
-            <input type="date" name="due-date" id="due-date">
+            <input type="date" name="due-date" id="due-date" required>
           </div>
           <fieldset class="priority-buttons">
             <legend>Priority</legend>
@@ -103,7 +103,7 @@
             </div.priority-button>
           </fieldset>
         </div>
-        <button id="add">Add</button>
+        <button id="add">Confirm</button>
       </form>
     </div>
   </dialog>
