@@ -31,6 +31,7 @@ ul {
 
 .header,
 .projects li,
+.new-project,
 .todo .summary {
     display: flex;
     align-items: center;
@@ -48,8 +49,6 @@ body {
     grid-column: 1 / span 2;
     background-color: var(--primary);
     padding: 1rem;
-    // display: flex;
-    // align-content: center;
 
     .logo-img {
         width: 3rem;
@@ -61,15 +60,23 @@ body {
     background-color: var(--secondary);
     padding: 2rem;
 
-    .projects li {
+    .projects li,
+    .new-project {
         font-size: 1.1rem;
         padding: 0.5rem 0;
         cursor: pointer;
     }
 
-    .projects li:hover,
-    .selected {
+    .projects li:hover {
         font-weight: bold;
+    }
+
+    .delete {
+        margin-left: auto;
+    }
+
+    .projects li:hover .delete {
+        display: inline-block;
     }
 
     .todo-count {
@@ -77,6 +84,7 @@ body {
         border-radius: 50%;
         display: grid;
         place-content: center;
+        flex: 0 0 auto;
     }
 
     .todo-count,
@@ -130,6 +138,7 @@ body {
     min-height: 1.5rem;
 }
 
+.name,
 .todo .title {
     white-space: nowrap;
     overflow: hidden;
@@ -206,6 +215,7 @@ dialog {
         padding: 1rem;
     }
 
+    #name,
     #title,
     #description,
     #due-date,
@@ -214,6 +224,20 @@ dialog {
         padding: 0.5rem;
         border: none;
     }
+
+    button {
+        outline: 1px solid black;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+
+}
+
+.project.modal {}
+
+.new-todo.modal {
+
 
     #title,
     #description {
@@ -252,6 +276,12 @@ dialog {
         margin: 0;
     }
 
+    input[type="radio"] {
+        position: fixed;
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .priority-buttons label {
         cursor: pointer;
         text-transform: uppercase;
@@ -272,12 +302,6 @@ dialog {
         background-color: rgba(255, 0, 0, 0.5);
     }
 
-    #add {
-        outline: 1px solid black;
-        border: none;
-        padding: 0.5rem;
-        cursor: pointer;
-    }
 }
 
 label {
