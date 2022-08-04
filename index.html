@@ -18,59 +18,40 @@
   </header>
   <div class="sidebar">
     <h2>Projects</h2>
+
     <ul class="projects">
-      <!-- <li class="project selected">
-        <span class="todo-count">4</span>
-        <span class="name">Project</span>
-      </li>
-      <li class="project">
-        <span class="todo-count">3</span>
-        <span class="name">Another project</span>
-      </li>
-      <li class="project">
-        <span class="todo-count">6</span>
-        <span class="name">Something</span>
-      </li> -->
     </ul>
+
     <div class="new-project">
       <img src="./images/add-line.svg" alt="">
-      <span>New Project</span>
+      <span class="new-project">New Project</span>
     </div>
   </div>
   <main class="main">
     <div class="container">
       <h2 class="projects-header">Default</h2>
+
       <ul class="todos">
-        <!-- <li class="todo high-priority expanded">
-          <div class="summary">
-            <div class="checkbox checked"></div>
-            <span class="title">Insert task here</span>
-            <span class="due-date">03/07/2022</span>
-            <img class="edit" src="./images/edit-box-line.svg" alt="">
-            <img class="delete" src="./images/delete-bin-line.svg" alt="">
-          </div>
-          <p class="details">
-            Insert specific description here.
-          </p>
-        </li>
-        <li class="todo high-priority">
-          <div class="summary">
-            <div class="checkbox checked"></div>
-            <span class="title">Do this! things!</span>
-            <span class="due-date">03/07/2022</span>
-            <img class="edit" src="./images/edit-box-line.svg" alt="">
-            <img class="delete" src="./images/delete-bin-line.svg" alt="">
-          </div>
-          <p class="details"></p>
-        </li> -->
       </ul>
+
       <div class="new-todo-button">
         <img src="./images/add-line.svg" alt="">
         <span class="add-text">New todo</span>
       </div>
     </div>
   </main>
-  <dialog class="new-todo-modal">
+  <dialog class="project modal">
+    <div class="container">
+      <h2 class="form-header">New project</h2>
+      <p>Enter a name for this project:</p>
+      <form action="" method="dialog" class="project-form">
+        <label for="name" hidden>Project name</label>
+        <input type="text" name="name" , id="name" maxlength="20" required>
+        <button class="confirm">Confirm</button>
+      </form>
+    </div>
+  </dialog>
+  <dialog class="new-todo modal">
     <div class="container">
       <h2 class="form-header">New todo</h2>
       <form action="" method="dialog" class="todo-form">
@@ -90,15 +71,15 @@
           <fieldset class="priority-buttons">
             <legend>Priority</legend>
             <div.priority-button>
-              <input type="radio" name="priority" id="low" value="low" required hidden>
+              <input type="radio" name="priority" id="low" value="low" required>
               <label for="low">Low</label>
             </div.priority-button>
             <div.priority-button>
-              <input type="radio" name="priority" id="medium" value="medium" required hidden>
+              <input type="radio" name="priority" id="medium" value="medium" required>
               <label for="medium">Medium</label>
             </div.priority-button>
             <div.priority-button>
-              <input type="radio" name="priority" id="high" value="high" required hidden>
+              <input type="radio" name="priority" id="high" value="high" required>
               <label for="high">High</label>
             </div.priority-button>
           </fieldset>
