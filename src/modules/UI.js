@@ -56,7 +56,7 @@ export default class UI {
       </li>
     `);
     if (document.querySelector('.projects').childElementCount !== 0) {
-      const deleteEl = document.createRange().createContextualFragment('<img class="delete" src="../../dist/images/delete-bin-line.svg">');
+      const deleteEl = document.createRange().createContextualFragment('<img class="delete" src="./images/delete-bin-line.svg">');
       frag.querySelector('.project').appendChild(deleteEl);
       this.addProjectDeleteEvent(frag.querySelector('.delete'), project);
     }
@@ -135,8 +135,8 @@ export default class UI {
           <div class="checkbox${completed ? ' checked' : ''}"></div>
           <span class="title">${title}</span>
           <span class="due-date">${dueDate}</span>
-          <img class="edit" src="../../dist/images/edit-box-line.svg">
-          <img class="delete" src="../../dist/images/delete-bin-line.svg">
+          <img class="edit" src="./images/edit-box-line.svg">
+          <img class="delete" src="./images/delete-bin-line.svg">
         </div>
         <p class="details hidden">${description}</p>
       </li>
