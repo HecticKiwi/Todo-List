@@ -58,7 +58,7 @@ export default class UI {
     if (document.querySelector('.projects').childElementCount !== 0) {
       const deleteEl = document.createRange().createContextualFragment('<img class="delete" src="../../dist/images/delete-bin-line.svg">');
       frag.querySelector('.project').appendChild(deleteEl);
-      this.addProjectDeleteEvent(frag.querySelector('.delete'));
+      this.addProjectDeleteEvent(frag.querySelector('.delete'), project);
     }
     frag.querySelector('.project').addEventListener('click', () => {
       this.currProject = project;
@@ -68,7 +68,7 @@ export default class UI {
   }
 
   #populateTodosHTML(project) {
-    document.querySelector('.projects-header').innerHTML = project.name;
+    document.querySelector('.todos-header').innerHTML = project.name;
     document.querySelector('.todos').innerHTML = '';
     for (let i = 0; i < project.todos.length; i++) {
       this.addTodoEl(project.todos[i], i);
@@ -164,7 +164,7 @@ export default class UI {
     editEl.addEventListener('click', (e) => {
       e.stopPropagation();
       this.currTodoID = this.currProject.todos.indexOf(todo);
-      document.querySelector('.form-header').innerHTML = 'Edit Todo';
+      document.querySelector('.new-todo .form-header').innerHTML = 'Edit Todo';
       document.querySelector('#title').value = this.currProject.todos[this.currTodoID].title;
       document.querySelector('#description').value = this.currProject.todos[this.currTodoID].description;
       document.querySelector('#due-date').value = this.currProject.todos[this.currTodoID].dueDate;
@@ -180,7 +180,8 @@ export default class UI {
       const index = this.projects.indexOf(project);
       this.projects.splice(index, 1);
       storage.writeProjects(this.projects);
-      this.#populateTodosHTML(this.projects[0]);
+      [this.currProject] = this.projects;
+      this.#populateTodosHTML(this.currProject);
     });
   }
 

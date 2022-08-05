@@ -2,8 +2,9 @@
 
 :root {
     font-family: 'Open Sans', sans-serif;
-    --primary: hsl(32, 100%, 57%);
-    --secondary: hsl(0, 0%, 93%);
+    --primary: hsl(209, 91%, 68%);
+    --secondary: hsl(0, 0%, 95%);
+    --border: rgb(194, 194, 194);
     --transition-time: 400ms;
 }
 
@@ -13,7 +14,7 @@
 
 h1,
 h2 {
-    color: rgb(34, 34, 34);
+    color: rgb(36, 36, 36);
 }
 
 h1 {
@@ -38,11 +39,12 @@ ul {
 }
 
 body {
+    line-height: normal;
     min-height: 100vh;
     display: grid;
     grid-template: min-content 1fr / 15rem 1fr;
     gap: 1px;
-    background-color: black;
+    background-color: rgb(194, 194, 194);
 }
 
 .header {
@@ -59,6 +61,10 @@ body {
 .sidebar {
     background-color: var(--secondary);
     padding: 2rem;
+
+    .projects-header {
+        font-size: 1.2rem;
+    }
 
     .projects li,
     .new-project {
@@ -93,6 +99,14 @@ body {
         height: 1.75rem;
         margin-right: 1rem;
     }
+
+    .new-project {
+        opacity: 0.5;
+    }
+
+    .new-project:hover {
+        opacity: 1;
+    }
 }
 
 .main {
@@ -106,8 +120,12 @@ body {
     margin: 0 auto;
 }
 
+.todos-header {
+    font-size: 1.75rem;
+}
+
 .todo {
-    border-left: 2px solid transparent;
+    border-left: 1px solid transparent;
     padding: 0.5rem;
 
     &.high-priority {
@@ -134,7 +152,6 @@ body {
 
 .summary {
     gap: 0.5rem;
-    line-height: normal;
     min-height: 1.5rem;
 }
 
@@ -151,7 +168,7 @@ body {
 }
 
 .todo+.todo {
-    border-top: 1px solid rgb(146, 146, 146);
+    border-top: 1px solid var(--border);
 }
 
 .checkbox {
@@ -184,6 +201,7 @@ body {
 .details {
     margin-left: calc(1.5rem + 2px);
     font-size: 0.9rem;
+    color: gray;
 }
 
 .hidden {
@@ -203,7 +221,7 @@ body {
 }
 
 dialog {
-    border: 1px solid black;
+    border: 1px solid var(--border);
     padding: 0;
     width: min(100%, 40rem);
 
@@ -223,6 +241,7 @@ dialog {
         outline: 1px solid lightgray;
         padding: 0.5rem;
         border: none;
+        line-height: normal;
     }
 
     button {
