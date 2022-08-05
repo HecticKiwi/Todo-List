@@ -1,34 +1,16 @@
 // import Project from './Project';
 import Todo from './Todo';
-import * as storage from './LocalStorage';
 import Project from './Project';
+import * as storage from './LocalStorage';
 
 export default class UI {
-  static createElement(tag, text, className = '') {
-    const el = document.createElement(tag);
-    el.innerText = text;
-    el.className = className;
-    return el;
-  }
-
-  static getTodoIndex(clickedEl) {
-    const liEl = clickedEl.parentNode.parentNode;
-    const todosEl = document.querySelector('.todos');
-    const index = Array.prototype.indexOf.call(todosEl.children, liEl);
-    return index;
-  }
-
-  static addTodoEvent(todo) {
-    todo.addEventListener('click', (e) => {
-      const { target } = e;
-      if (target === todo || target.classList.contains('summary') || target.classList.contains('title') || target.classList.contains('due-date') || target.classList.contains('details')) {
-        todo.classList.toggle('expanded');
-        todo.querySelector('.details').classList.toggle('hidden');
-      }
+  static #addTodoEvent(todo) {
+    todo.addEventListener('click', () => {
+      todo.querySelector('.details').classList.toggle('hidden');
     });
   }
 
-  static addModalCloseEvents() {
+  static #addModalCloseEvents() {
     const dialogs = document.querySelectorAll('.modal');
     dialogs.forEach((dialog) => {
       dialog.addEventListener('click', (e) => {
@@ -39,7 +21,7 @@ export default class UI {
     });
   }
 
-  static addNewProjectEvent() {
+  static #addNewProjectEvent() {
     const newProjectEl = document.querySelector('.new-project');
     newProjectEl.addEventListener('click', () => {
       document.querySelector('.project-form').reset();
@@ -48,67 +30,69 @@ export default class UI {
   }
 
   constructor() {
-    this.currTodoID = null;
     this.projects = storage.readProjects();
     [this.currProject] = this.projects;
+    this.currTodoID = null;
   }
 
   setupPage() {
-    this.populateProjectsHTML();
-    this.populateTodosHTML(this.currProject);
-    this.addEventListeners();
+    this.#populateProjectsHTML();
+    this.#populateTodosHTML(this.currProject);
+    this.#addEventListeners();
   }
 
-  populateProjectsHTML() {
+  #populateProjectsHTML() {
     document.querySelector('.projects').innerHTML = '';
     this.projects.forEach((project) => {
-      this.addProjectEl(project);
+      this.#addProjectEl(project);
     });
   }
 
-  addProjectEl(project) {
-    const projectEl = UI.createElement('li', '', 'project');
-    projectEl.appendChild(UI.createElement('span', project.todos.length, 'todo-count'));
-    projectEl.appendChild(UI.createElement('span', project.name, 'name'));
-    const deleteEl = UI.createElement('img', '', 'delete');
-    deleteEl.src = '../../dist/images/delete-bin-line.svg';
-    projectEl.append(deleteEl);
-    this.addProjectDeleteEvent(deleteEl);
-    projectEl.addEventListener('click', () => {
+  #addProjectEl(project) {
+    const frag = document.createRange().createContextualFragment(`
+      <li class="project">
+        <span class="todo-count">${project.todos.length}</span>
+        <span class="name">${project.name}</span>
+      </li>
+    `);
+    if (document.querySelector('.projects').childElementCount !== 0) {
+      const deleteEl = document.createRange().createContextualFragment('<img class="delete" src="../../dist/images/delete-bin-line.svg">');
+      frag.querySelector('.project').appendChild(deleteEl);
+      this.addProjectDeleteEvent(frag.querySelector('.delete'));
+    }
+    frag.querySelector('.project').addEventListener('click', () => {
       this.currProject = project;
-      this.populateTodosHTML(this.currProject);
+      this.#populateTodosHTML(this.currProject);
     });
-    const projectsEl = document.querySelector('.projects');
-    projectsEl.append(projectEl);
+    document.querySelector('.projects').appendChild(frag);
   }
 
-  populateTodosHTML(project) {
+  #populateTodosHTML(project) {
     document.querySelector('.projects-header').innerHTML = project.name;
     document.querySelector('.todos').innerHTML = '';
-    for (let i = 0; i < project.todos.length; i += 1) {
+    for (let i = 0; i < project.todos.length; i++) {
       this.addTodoEl(project.todos[i], i);
     }
   }
 
-  addEventListeners() {
-    this.addTodoButtonEvent();
-    UI.addModalCloseEvents();
-    this.addTodoModalSubmitEvent();
-    UI.addNewProjectEvent();
-    this.addProjectModalSubmitEvent();
+  #addEventListeners() {
+    this.#addTodoButtonEvent();
+    UI.#addModalCloseEvents();
+    this.#addTodoModalSubmitEvent();
+    UI.#addNewProjectEvent();
+    this.#addProjectModalSubmitEvent();
   }
 
-  addCheckboxEvent(checkbox) {
-    checkbox.addEventListener('click', () => {
+  #addCheckboxEvent(checkbox, todo) {
+    checkbox.addEventListener('click', (e) => {
+      e.stopPropagation();
       checkbox.classList.toggle('checked');
-
-      const index = UI.getTodoIndex(checkbox);
-      this.currProject.todos[index].completed = !this.currProject.todos[index].completed;
+      todo.completed = !todo.completed;
       storage.writeProjects(this.projects);
     });
   }
 
-  addTodoButtonEvent() {
+  #addTodoButtonEvent() {
     const newTodo = document.querySelector('.new-todo-button');
     newTodo.addEventListener('click', () => {
       document.querySelector('.todo-form').reset();
@@ -118,17 +102,17 @@ export default class UI {
     });
   }
 
-  addProjectModalSubmitEvent() {
-    document.querySelector('.project-form').addEventListener('click', () => {
+  #addProjectModalSubmitEvent() {
+    document.querySelector('.project-form').addEventListener('submit', () => {
       const name = document.querySelector('#name').value;
       const project = new Project(name);
-      this.addProjectEl(project);
+      this.#addProjectEl(project);
       this.projects.push(project);
       storage.writeProjects(this.projects);
     });
   }
 
-  addTodoModalSubmitEvent() {
+  #addTodoModalSubmitEvent() {
     const todoForm = document.querySelector('.todo-form');
     todoForm.addEventListener('submit', () => {
       const title = document.querySelector('#title').value;
@@ -145,47 +129,41 @@ export default class UI {
       title, description, dueDate, priority, completed,
     } = todo;
 
-    // Create todo DOM element
-    const todoEl = UI.createElement('li', '', 'todo');
-    todoEl.className += ` ${priority}-priority`;
-    const summaryEl = UI.createElement('div', '', 'summary');
-    const checkboxEl = UI.createElement('div', '', 'checkbox');
-    if (completed) {
-      checkboxEl.classList.add('checked');
-    }
-    const titleEl = UI.createElement('span', title, 'title');
-    const dueDateEl = UI.createElement('span', dueDate, 'due-date');
-    const editEl = UI.createElement('img', '', 'edit');
-    editEl.src = '../../dist/images/edit-box-line.svg';
-    const deleteEl = UI.createElement('img', '', 'delete');
-    deleteEl.src = '../../dist/images/delete-bin-line.svg';
-    summaryEl.append(checkboxEl, titleEl, dueDateEl, editEl, deleteEl);
-    todoEl.appendChild(summaryEl);
-    const detailsEl = UI.createElement('p', description, 'details hidden');
+    const frag = document.createRange().createContextualFragment(`
+      <li class="todo ${priority}-priority">
+        <div class="summary">
+          <div class="checkbox${completed ? ' checked' : ''}"></div>
+          <span class="title">${title}</span>
+          <span class="due-date">${dueDate}</span>
+          <img class="edit" src="../../dist/images/edit-box-line.svg">
+          <img class="delete" src="../../dist/images/delete-bin-line.svg">
+        </div>
+        <p class="details hidden">${description}</p>
+      </li>
+    `);
+
+    this.#addCheckboxEvent(frag.querySelector('.checkbox'), todo);
+    this.addEditEvent(frag.querySelector('.edit'), todo);
+    this.addTodoDeleteEvent(frag.querySelector('.delete'), todo);
+    UI.#addTodoEvent(frag.querySelector('.todo'));
 
     const todosEl = document.querySelector('.todos');
     const todoEls = document.querySelector('.todos').children;
 
     if (i === todoEls.length) {
-      todosEl.append(todoEl);
+      todosEl.append(frag);
     } else {
-      todosEl.replaceChild(todoEl, todoEls[i]);
+      todosEl.replaceChild(frag, todoEls[i]);
     }
 
     this.currProject.todos[i] = todo;
     storage.writeProjects(this.projects);
-
-    todoEl.appendChild(detailsEl);
-
-    this.addCheckboxEvent(checkboxEl);
-    this.addEditEvent(editEl);
-    this.addTodoDeleteEvent(deleteEl);
-    UI.addTodoEvent(todoEl);
   }
 
-  addEditEvent(editEl) {
-    editEl.addEventListener('click', () => {
-      this.currTodoID = UI.getTodoIndex(editEl);
+  addEditEvent(editEl, todo) {
+    editEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.currTodoID = this.currProject.todos.indexOf(todo);
       document.querySelector('.form-header').innerHTML = 'Edit Todo';
       document.querySelector('#title').value = this.currProject.todos[this.currTodoID].title;
       document.querySelector('#description').value = this.currProject.todos[this.currTodoID].description;
@@ -195,20 +173,20 @@ export default class UI {
     });
   }
 
-  addProjectDeleteEvent(deleteEl) {
+  addProjectDeleteEvent(deleteEl, project) {
     deleteEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      const index = Array.prototype.indexOf.call(document.querySelector('.projects').children, deleteEl.parentNode);
       deleteEl.parentNode.remove();
+      const index = this.projects.indexOf(project);
       this.projects.splice(index, 1);
       storage.writeProjects(this.projects);
-      this.populateTodosHTML(this.projects[index - 1]);
+      this.#populateTodosHTML(this.projects[0]);
     });
   }
 
-  addTodoDeleteEvent(deleteEl) {
+  addTodoDeleteEvent(deleteEl, todo) {
     deleteEl.addEventListener('click', () => {
-      const index = UI.getTodoIndex(deleteEl);
+      const index = this.currProject.todos.indexOf(todo);
       this.currProject.todos.splice(index, 1);
       deleteEl.parentNode.parentNode.remove();
       storage.writeProjects(this.projects);
