@@ -52,9 +52,12 @@ export default class UI {
     const frag = document.createRange().createContextualFragment(`
       <li class="project">
         <span class="todo-count">${project.todos.length}</span>
-        <span class="name">${project.name}</span>
+        <span class="name"></span>
       </li>
     `);
+
+    frag.querySelector('.name').textContent = project.name;
+
     if (document.querySelector('.projects').childElementCount !== 0) {
       const deleteEl = document.createRange().createContextualFragment('<img class="delete" src="./images/delete-bin-line.svg">');
       frag.querySelector('.project').appendChild(deleteEl);
@@ -130,17 +133,25 @@ export default class UI {
     } = todo;
 
     const frag = document.createRange().createContextualFragment(`
-      <li class="todo ${priority}-priority">
+      <li class="todo">
         <div class="summary">
-          <div class="checkbox${completed ? ' checked' : ''}"></div>
-          <span class="title">${title}</span>
-          <span class="due-date">${dueDate}</span>
+          <div class="checkbox"></div>
+          <span class="title"></span>
+          <span class="due-date"></span>
           <img class="edit" src="./images/edit-box-line.svg">
           <img class="delete" src="./images/delete-bin-line.svg">
         </div>
-        <p class="details hidden">${description}</p>
+        <p class="details hidden"></p>
       </li>
     `);
+
+    frag.querySelector('.todo').classList.add(`${priority}-priority`);
+    if (completed) {
+      frag.querySelector('.checkbox').classList.add('checked');
+    }
+    frag.querySelector('.title').textContent = title;
+    frag.querySelector('.due-date').textContent = dueDate;
+    frag.querySelector('.details').textContent = description;
 
     this.#addCheckboxEvent(frag.querySelector('.checkbox'), todo);
     this.addEditEvent(frag.querySelector('.edit'), todo);
